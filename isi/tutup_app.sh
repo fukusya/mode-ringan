@@ -10,7 +10,10 @@ F_AS="$HOME/Library/Application Support/ModeRingan/otomatis_semua"
 [ -f "$F_AS" ] && [ "$MODE" = "semua" ] && { COBA="--langsung"; rm -f "$F_AS"; }
 # Diklik manual dari Dock (tanpa penanda apa pun) -> tampilkan kotak pilihan dulu
 [ -z "$COBA" ] && exec "$HOME/Library/Application Support/ModeRingan/kotak_manual.sh" "$MODE"
-RINGAN="us.zoom.xos com.spotify.client com.hnc.Discord org.libreoffice.script com.apple.Preview com.apple.Stickies com.apple.ScreenContinuity com.pdfeditor.pdfeditormac"
+# Daftar app Mode Ringan bisa diatur sendiri lewat tombol "Atur Mode Ringan" (file daftar_ringan.txt, isi: Nama|bundleid)
+F_DAFTAR="$HOME/Library/Application Support/ModeRingan/daftar_ringan.txt"
+RINGAN_BAWAAN="com.spotify.client com.hnc.Discord org.libreoffice.script com.apple.Preview com.apple.Stickies com.apple.ScreenContinuity com.pdfeditor.pdfeditormac"
+if [ -f "$F_DAFTAR" ]; then RINGAN=$(cut -d'|' -f2 "$F_DAFTAR" | tr '\n' ' '); else RINGAN="$RINGAN_BAWAAN"; fi
 # App latar belakang (hanya ikon di menu bar) yang ikut ditutup oleh "semua"
 LATAR_SEMUA="dev.kdrag0n.MacVirt com.hnc.Discord us.zoom.xos com.spotify.client"
 JANGAN="com.apple.finder"

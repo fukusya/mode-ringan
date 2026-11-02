@@ -2,7 +2,8 @@
 
 Supaya Mac 8 GB tidak gampang hang.
 
-- **Mode Ringan** (daun): menutup app yang jarang dipakai (Spotify, Discord, Zoom kalau tidak sedang meeting, Preview, dll).
+- **Mode Ringan** (daun): menutup app yang jarang dipakai (bawaan: Spotify, Discord, LibreOffice, Preview, Stickies, iPhone Mirroring, PDFgear).
+- **Atur Mode Ringan**: pilih sendiri app mana yang boleh ditutup Mode Ringan (Cmd + Spasi, ketik "Atur").
 - **Tutup Semua** (merah): menutup semua app, bisa pilih app yang tetap dibuka.
 - **Pengecek otomatis** tiap 1 menit:
   - Memori kuning → kotak 5 detik, lalu Mode Ringan jalan (bisa Batal / pilih sendiri).
@@ -29,6 +30,7 @@ Klik dua kali **Hapus Mode Ringan** (ada di zip yang sama). Semua file dipindah 
 | `cek_memori.sh` | Pengecek memori tiap 1 menit (kuning / merah) |
 | `top3.sh` | Menghitung 3 app paling berat |
 | `restart_pagi.sh` | Pengingat restart jam 8 pagi |
+| `atur.sh` | Memilih app yang ditutup Mode Ringan (disimpan di `daftar_ringan.txt`) |
 | `*.icns` | Ikon tombol |
 
 ## Cara membuat ulang zip

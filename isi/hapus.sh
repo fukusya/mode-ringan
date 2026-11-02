@@ -4,7 +4,7 @@ D="$HOME/Library/Application Support/ModeRingan"; A="$HOME/Applications"; LA="$H
 for L in com.thisya.moderingan.cekmemori com.thisya.moderingan.restartpagi com.moderingan.cekmemori com.moderingan.restartpagi; do
   [ "$TANPA_SISTEM" = "1" ] || launchctl bootout gui/$U/$L 2>/dev/null; rm -f "$LA/$L.plist"; done
 mkdir -p "$HOME/.Trash"
-for x in "$A/Mode Ringan.app" "$A/Tutup Semua.app" "$D"; do [ -e "$x" ] && mv "$x" "$HOME/.Trash/$(basename "$x") $(date +%H%M%S)"; done
+for x in "$A/Mode Ringan.app" "$A/Tutup Semua.app" "$A/Atur Mode Ringan.app" "$D"; do [ -e "$x" ] && mv "$x" "$HOME/.Trash/$(basename "$x") $(date +%H%M%S)"; done
 if [ "$TANPA_SISTEM" != "1" ]; then
   python3 - <<'PY'
 import plistlib,os,subprocess

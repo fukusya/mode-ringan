@@ -4,16 +4,17 @@
 SRC="$(cd "$(dirname "$0")" && pwd)"
 D="$HOME/Library/Application Support/ModeRingan"; A="$HOME/Applications"; LA="$HOME/Library/LaunchAgents"
 mkdir -p "$D" "$A" "$LA"
-cp "$SRC"/cek_memori.sh "$SRC"/kotak_manual.sh "$SRC"/restart_pagi.sh "$SRC"/top3.sh "$SRC"/tunggu_tutup.sh "$SRC"/tutup_app.sh "$SRC"/tutup_pilihan.sh "$D/"
+cp "$SRC"/cek_memori.sh "$SRC"/kotak_manual.sh "$SRC"/restart_pagi.sh "$SRC"/top3.sh "$SRC"/tunggu_tutup.sh "$SRC"/tutup_app.sh "$SRC"/tutup_pilihan.sh "$SRC"/atur.sh "$D/"
 chmod +x "$D"/*.sh
-buat_tombol(){ # nama, mode, ikon
+buat_tombol(){ # nama, argumen untuk tutup_app.sh (atau "ATUR"), ikon
   rm -rf "$A/$1.app"
-  osacompile -o "$A/$1.app" -e "do shell script \"'\" & POSIX path of (path to home folder) & \"Library/Application Support/ModeRingan/tutup_app.sh' $2\"" || return 1
+  if [ "$2" = "ATUR" ]; then CMD="atur.sh'"; else CMD="tutup_app.sh' $2"; fi
+  osacompile -o "$A/$1.app" -e "do shell script \"'\" & POSIX path of (path to home folder) & \"Library/Application Support/ModeRingan/$CMD\"" || return 1
   cp "$SRC/$3" "$A/$1.app/Contents/Resources/applet.icns"
   rm -f "$A/$1.app/Contents/Resources/Assets.car"; plutil -remove CFBundleIconName "$A/$1.app/Contents/Info.plist" 2>/dev/null
   codesign -f -s - "$A/$1.app" 2>/dev/null; touch "$A/$1.app"
 }
-buat_tombol "Mode Ringan" ringan ringan.icns && buat_tombol "Tutup Semua" semua semua.icns || { echo GAGAL membuat tombol; exit 1; }
+buat_tombol "Mode Ringan" ringan ringan.icns && buat_tombol "Tutup Semua" semua semua.icns && buat_tombol "Atur Mode Ringan" ATUR atur.icns || { echo GAGAL membuat tombol; exit 1; }
 [ "$TANPA_SISTEM" = "1" ] && { echo "OK (tanpa pengecek otomatis & Dock)"; exit 0; }
 U=$(id -u)
 # bersihkan versi lama (nama lama & baru) supaya tidak dobel
@@ -38,5 +39,5 @@ for n in "Mode Ringan" "Tutup Semua"; do
   defaults read com.apple.dock persistent-apps 2>/dev/null | grep -q "${n// /%20}.app" || defaults write com.apple.dock persistent-apps -array-add "<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>file://$A/${n// /%20}.app/</string><key>_CFURLStringType</key><integer>15</integer></dict></dict></dict>"
 done
 killall Dock
-osascript -e 'display dialog "✅ Mode Ringan sudah terpasang.\n\nDua tombol baru ada di Dock: Mode Ringan (daun) dan Tutup Semua (merah).\nPertama kali dipakai, klik Allow kalau Mac minta izin." with title "Pasang Mode Ringan" buttons {"OK"} default button "OK" giving up after 20' >/dev/null 2>&1
+osascript -e 'display dialog "✅ Mode Ringan sudah terpasang.\n\nDua tombol baru ada di Dock: Mode Ringan (daun) dan Tutup Semua (merah).\nMau ganti app yang ditutup Mode Ringan? Cari \"Atur Mode Ringan\" (Cmd + Spasi).\nPertama kali dipakai, klik Allow kalau Mac minta izin." with title "Pasang Mode Ringan" buttons {"OK"} default button "OK" giving up after 20' >/dev/null 2>&1
 echo OK
